@@ -7,16 +7,22 @@ Practice accessing data by console.log-ing the following pieces of data note.
 
 💡 HINT: You may want to filter the data first 😉*/
 
+const finals2014 = fifaData.filter((element) => {
+    return element.Year === 2014 && element.Stage === 'Final';
+});
+
+console.log('Array:', finals2014)
+
 //(a) Home Team name for 2014 world cup final
-
+console.log('Task 1 Part A', finals2014[0]['Home Team Name']);
 //(b) Away Team name for 2014 world cup final
-
+console.log('Task 1 Part B', finals2014[0]['Away Team Name']);
 //(c) Home Team goals for 2014 world cup final
-
+console.log('Task 1 Part C', finals2014[0]['Home Team Goals']);
 //(d) Away Team goals for 2014 world cup final
-
+console.log('Task 1 Part D', finals2014[0]['Away Team Goals']);
 //(e) Winner of 2014 world cup final */
-
+console.log('Task 1 Part E', finals2014[0]['Win conditions']);
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Use getFinals to do the following:
@@ -26,10 +32,12 @@ Use getFinals to do the following:
 💡 HINT - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-    /* code here */
- }
+function getFinals(data) {
+const allFinals = data.filter(function(element){ return element.Stage === 'Final'});
+    return allFinals;
+};
 
+console.log('Task 2', getFinals(fifaData))
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -38,10 +46,11 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function as the second parameter that will take getFinals from task 2 as an argument
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(data, getFinals) {
+    return getFinals(data).map(x => x.Year)
 }
 
+console.log('Task 3', getYears(fifaData, getFinals))
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -52,10 +61,11 @@ Use the higher-order function getWinners to do the following:
 💡 HINT: Don't worry about ties for now (Please see the README file for info on ties for a stretch goal.)
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(data, getFinals) {
+    return getFinals(data).map(x => x['Home Team Goals'] > x['Away Team Goals'] ? x['Home Team Name'] : x['Away Team Name']) 
 }
 
+console.log('Task 4', getWinners(fifaData, getFinals))
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 5: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
@@ -69,9 +79,13 @@ Use the higher-order function getWinnersByYear to do the following:
 💡 HINT: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(data, getFinals, getYears, getWinners) {
+    const winners = getWinners(data, getFinals);
+    const years = getYears(data, getFinals);
+    return winners.map((element, index) => `In ${years[index]}, ${element} won the world cup!`);
 }
+
+console.log('Task 5', getWinnersByYear(fifaData, getFinals, getYears, getWinners))
 
 
 
@@ -84,15 +98,15 @@ Use the higher order function getAverageGoals to do the following:
  2. Return the the average number of the total home team goals and away team goals scored per match and round to the second decimal place. 
  
  💡 HINT: use .reduce, .toFixed (refer to MDN for syntax), and do this in 2 steps) 
- 
- 
 */
 
-function getAverageGoals(/* code here */) {
-    /* code here */
- }
+function getAverageGoals(data) {
+    const averageHomeGoals = data.reduce(function(acc, item){ return acc + item['Home Team Goals'] + item['Away Team Goals'];
+ },0)
+ return (averageHomeGoals / data.length).toFixed(2);
+}
 
-
+console.log('Task 6', getAverageGoals(getFinals(fifaData)))
 
 
 /// 🥅 STRETCH 🥅 ///
@@ -103,10 +117,8 @@ Create a function called `getCountryWins` that takes the parameters `data` and `
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
-
-    /* code here */
-
+function getCountryWins(data, teamInitials) {
+    
 }
 
 
